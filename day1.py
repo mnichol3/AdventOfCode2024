@@ -95,6 +95,6 @@ def parse_input(f_path: Path) -> list[list[int]]:
 
 
 if __name__ == '__main__':
-    input = parse_input(Path.cwd().joinpath('input', 'day1.txt'))
+    input = parse_input(Path(__file__).parent.joinpath('input', 'day1.txt'))
     dist = calc_distance(*input)
     print(dist)
