@@ -1,10 +1,10 @@
 """Advent of Code 2024 - Day 1"""
-
+from collections import Counter
 from pathlib import Path
 
 
-def calc_distance(list1: list[int], list2: list[int]) -> int:
-    """Calculate the distances between sorted values in the input list.
+def part_1(list1: list[int], list2: list[int]) -> int:
+    """Solution to Part 1.
 
     Parameters
     ----------
@@ -34,6 +34,28 @@ def calc_distance(list1: list[int], list2: list[int]) -> int:
             subtrahend = val1
 
         sum += minuend - subtrahend
+
+    return sum
+
+
+def part_2(list1: list[int], list2: list[int]) -> int:
+    """Solution to Part 2.
+
+    Parameters
+    ----------
+    list1: list of int
+    list2: list of int
+
+    Returns
+    -------
+    int
+    """
+    sum = 0
+    list2_count = Counter(list2)
+
+    for x in list1:
+        if x in list2_count:
+            sum += x * list2_count[x]
 
     return sum
 
@@ -86,9 +108,6 @@ def parse_input(f_path: Path) -> list[list[int]]:
     -------
     list[list[int, int]]
     """
-    if not isinstance(f_path, Path):
-        f_path = Path(f_path)
-
     a, b = list(zip(*[x.split() for x in f_path.read_text().split('\n') if x]))
 
     return [int(x) for x in a], [int(y) for y in b]
@@ -96,5 +115,6 @@ def parse_input(f_path: Path) -> list[list[int]]:
 
 if __name__ == '__main__':
     input = parse_input(Path(__file__).parent.joinpath('input', 'day1.txt'))
-    dist = calc_distance(*input)
-    print(dist)
+
+    print(f'Part 1 solution: {part_1(*input)}')
+    print(f'Part 2 solution: {part_2(*input)}')
