@@ -11,9 +11,9 @@ from .__init__ import INPUT_DIR
 from day1 import part_1, part_2, parse_input, quicksort
 
 
-def _get_input(fname: str = 'day1_test.txt') -> tuple[list[int], list[int]]:
+def _get_input() -> tuple[list[int], list[int]]:
     """Parse and return the input lists."""
-    return parse_input(INPUT_DIR.joinpath(fname))
+    return parse_input(INPUT_DIR.joinpath('day1.txt'))
 
 
 class TestHelpers(unittest.TestCase):

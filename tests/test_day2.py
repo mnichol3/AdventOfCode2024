@@ -11,12 +11,15 @@ from .__init__ import INPUT_DIR
 from day2 import parse_input, part_1, part_2
 
 
+FNAME = 'day2.txt'
+
+
 class TestHelpers(unittest.TestCase):
     """Test helper functions."""
 
     def setUp(self) -> None:
         """Set up before every test case."""
-        self.input = parse_input(INPUT_DIR.joinpath('day2_test.txt'))
+        self.input = parse_input(INPUT_DIR.joinpath(FNAME))
 
     def test_parse_input(self) -> None:
         """Test parse_input() function."""
@@ -33,7 +36,7 @@ class TestSolutions(unittest.TestCase):
 
     def setUp(self) -> None:
         """Set up before every test case."""
-        self.input = parse_input(INPUT_DIR.joinpath('day2_test.txt'))
+        self.input = parse_input(INPUT_DIR.joinpath(FNAME))
 
     def test_part1(self) -> None:
         """Test part 1 solution with sample input."""
