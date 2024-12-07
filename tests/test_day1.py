@@ -1,5 +1,4 @@
-"""
-Tests for Day 1 solutions.
+"""Tests for Day 1 solutions & helper functions.
 
 Usage
 -----
@@ -9,16 +8,20 @@ Usage
 import unittest
 
 from .__init__ import INPUT_DIR
-from day1 import calc_distance, parse_input, quicksort
+from day1 import part_1, part_2, parse_input, quicksort
 
 
-class TestDay1(unittest.TestCase):
-    """Test cases for Day 1."""
+def _get_input(fname: str = 'day1_test.txt') -> tuple[list[int], list[int]]:
+    """Parse and return the input lists."""
+    return parse_input(INPUT_DIR.joinpath(fname))
+
+
+class TestHelpers(unittest.TestCase):
+    """Test helper functions."""
 
     def setUp(self) -> None:
         """Set up before every test case."""
-        self.input_path = INPUT_DIR.joinpath('day1_test.txt')
-        self.list1, self.list2 = parse_input(self.input_path)
+        self.list1, self.list2 = _get_input()
 
     def test_parse_input(self) -> None:
         """Test parse_input() function."""
@@ -30,9 +33,21 @@ class TestDay1(unittest.TestCase):
         self.assertEqual(quicksort(self.list1), [1, 2, 3, 3, 3, 4])
         self.assertEqual(quicksort(self.list2), [3, 3, 3, 4, 5, 9])
 
-    def test_sample_input(self) -> None:
-        """Test calc_distance() with sample input."""
-        self.assertEqual(calc_distance(self.list1, self.list2), 11)
+
+class TestSolutions(unittest.TestCase):
+    """Test cases for Day 1 solutions."""
+
+    def setUp(self) -> None:
+        """Set up before every test case."""
+        self.list1, self.list2 = _get_input()
+
+    def test_part1(self) -> None:
+        """Test part 1 solution with sample input."""
+        self.assertEqual(part_1(self.list1, self.list2), 11)
+
+    def test_part2(self) -> None:
+        """Test part 2 solution with sample input."""
+        self.assertEqual(part_2(self.list1, self.list2), 31)
 
 
 if __name__ == '__main__':
