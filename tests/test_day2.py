@@ -3,7 +3,7 @@
 Usage
 -----
 > cd AdventOfCode2024
-> python -m unittest tests.test_day1
+> python -m unittest tests.test_day2
 """
 import unittest
 
@@ -29,7 +29,7 @@ class TestHelpers(unittest.TestCase):
 
 
 class TestSolutions(unittest.TestCase):
-    """Test cases for Day 1 solutions."""
+    """Test cases for Day 2 solutions."""
 
     def setUp(self) -> None:
         """Set up before every test case."""
