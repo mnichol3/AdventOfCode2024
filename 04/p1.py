@@ -13,7 +13,7 @@ def parse_input(fname: str = None) -> list[str]:
     -------
     list of list of str
     """
-    fname = 'day4.txt' if fname is None else fname
+    fname = 'input.txt' if fname is None else fname
 
     return [x for x in Path(fname).read_text().split('\n') if x]
 
