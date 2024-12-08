@@ -1,0 +1,52 @@
+"""Tests for Day 2 solutions & helper functions.
+
+Usage
+-----
+> cd AdventOfCode2024
+> python -m unittest tests.test_day2
+"""
+import unittest
+
+from .__init__ import INPUT_DIR
+import day2_1
+import day2_2
+
+
+FNAME = 'day2.txt'
+
+
+class TestHelpers(unittest.TestCase):
+    """Test helper functions."""
+
+    def setUp(self) -> None:
+        """Set up before every test case."""
+        self.input = day2_1.parse_input(INPUT_DIR.joinpath(FNAME))
+
+    def test_parse_input(self) -> None:
+        """Test parse_input() function."""
+        self.assertEqual(self.input[0], [7, 6, 4, 2, 1])
+        self.assertEqual(self.input[1], [1, 2, 7, 8, 9])
+        self.assertEqual(self.input[2], [9, 7, 6, 2, 1])
+        self.assertEqual(self.input[3], [1, 3, 2, 4, 5])
+        self.assertEqual(self.input[4], [8, 6, 4, 4, 1])
+        self.assertEqual(self.input[5], [1, 3, 6, 7, 9])
+
+
+class TestSolutions(unittest.TestCase):
+    """Test cases for Day 2 solutions."""
+
+    def setUp(self) -> None:
+        """Set up before every test case."""
+        self.input = day2_1.parse_input(INPUT_DIR.joinpath(FNAME))
+
+    def test_part1(self) -> None:
+        """Test part 1 solution with sample input."""
+        self.assertEqual(day2_1.get_solution(self.input), 2)
+
+    def test_soln2(self) -> None:
+        """Test part 2 solution with sample input."""
+        self.assertEqual(day2_2.get_solution(self.input), 4)
+
+
+if __name__ == '__main__':
+    unittest.main()
