@@ -46,11 +46,11 @@ def part1(rules: defaultdict, pages: list[str]) -> int:
         return row[len(row)//2]
 
     for x in pages:
-         page = list(map(int, x.split(',')))
-         sum += count(page)
+        page = list(map(int, x.split(',')))
+        sum += count(page)
 
     return sum
 
 
 if __name__ == '__main__':
-    print(f'Day 05 Part 1 answer: {part1(*parse_input("input_test.txt"))}')
+    print(f'Day 05 Part 1 answer: {part1(*parse_input("input.txt"))}')
