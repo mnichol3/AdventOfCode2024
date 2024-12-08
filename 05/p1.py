@@ -1,8 +1,9 @@
 """Advent of Code 2024 - Day 5 Part 1"""
+from collections import defaultdict
 from pathlib import Path
 
 
-def parse_input(fname: str = None) -> tuple[list[str], list[str]]:
+def parse_input(fname: str = None) -> tuple[defaultdict, list[str]]:
     """Parse the input from a text file.
 
     Parameters
@@ -11,47 +12,45 @@ def parse_input(fname: str = None) -> tuple[list[str], list[str]]:
 
     Returns
     -------
-    list of list of str
+    defaultdict
+        Set of rules, where each value is a set of numbers that the
+        corresponding key must preceed.
+    list of str
+        Pages.
     """
-    fname = 'day5.txt' if fname is None else fname
-    raw_inp = (
-        Path(__file__).parents[1].joinpath('input', fname)
-        .read_text().split('\n')
-    )
+    fname = 'input.txt' if fname is None else fname
+    raw_inp = Path(fname).read_text().split('\n\n')
 
-    delim = raw_inp.index('')
+    rules = defaultdict(set)
+    for x in raw_inp[0].split('\n'):
+       a, b = x.split('|')
+       rules[int(b)].add(int(a))
 
-    return ([raw_inp[i] for i in range(delim+1) if raw_inp[i]],
-            [raw_inp[j] for j in range(delim+1, len(raw_inp)) if raw_inp[j]])
+    updates = [y for y in raw_inp[1].split('\n') if y]
+
+    return rules, updates
 
 
-def part1(rules: list[str], updates: list[str]) -> int:
-    middle = []
-    valid = True
-    for row in updates:
-        valid = True
-        row_dict = {x: i for (i, x) in enumerate(row.split(','))}
+def part1(rules: defaultdict, pages: list[str]) -> int:
+    sum = 0
 
-        for row_k, row_i in row_dict.items():
-            for rule in rules:
-                if row_k in rule:
-                    m, n = rule.split('|')
-                    try:
-                        if (
-                            (m == row_k and row_dict[n] < row_i) or
-                            (n == row_k and row_i < row_dict[m])
-                        ):
-                            valid = False
-                            break
-                    except KeyError:
-                        pass
+    def count(row: list[str]) -> int:
+        invalid = set()
 
-        if valid:
-            n_vals = len(row_dict.keys())
-            middle.append(int(list(row_dict.keys())[n_vals//2]))
+        for r in row:
+            if r in invalid:
+                return 0
 
-    return sum(middle)
+            invalid |= rules[r]
+
+        return row[len(row)//2]
+
+    for x in pages:
+         page = list(map(int, x.split(',')))
+         sum += count(page)
+
+    return sum
 
 
 if __name__ == '__main__':
-    print(f'Day 05 Part 1 answer: {part1(*parse_input())}')
+    print(f'Day 05 Part 1 answer: {part1(*parse_input("input_test.txt"))}')
