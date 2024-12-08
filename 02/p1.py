@@ -36,10 +36,9 @@ def parse_input() -> list[list[int]]:
     -------
     list of list of int
     """
-    f_path = Path(__file__).parents[1].joinpath('input', 'day2.txt')
     return [
         [int(y) for y in x.split()]
-        for x in f_path.read_text().split('\n') if x
+        for x in  Path('input.txt').read_text().split('\n') if x
     ]
 
 

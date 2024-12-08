@@ -84,8 +84,12 @@ def parse_input() -> list[list[int]]:
     -------
     list[list[int, int]]
     """
-    f_path = Path(__file__).parents[1].joinpath('input', 'day1.txt')
-    a, b = list(zip(*[x.split() for x in f_path.read_text().split('\n') if x]))
+    a, b = list(
+        zip(*[
+            x.split()
+            for x in Path('input.txt').read_text().split('\n') if x
+        ])
+    )
 
     return [int(x) for x in a], [int(y) for y in b]
 

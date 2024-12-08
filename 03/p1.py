@@ -14,8 +14,7 @@ def parse_input() -> list[str]:
     -------
     list of list of str
     """
-    f_path = Path(__file__).parents[1].joinpath('input', 'day3.txt')
-    return [x for x in f_path.read_text().split('\n') if x]
+    return [x for x in Path('input.txt').read_text().split('\n') if x]
 
 
 def answer(instructions: list[str]) -> int:

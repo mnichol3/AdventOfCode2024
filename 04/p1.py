@@ -14,9 +14,8 @@ def parse_input(fname: str = None) -> list[str]:
     list of list of str
     """
     fname = 'day4.txt' if fname is None else fname
-    f_path = Path(__file__).parents[1].joinpath('input', fname)
 
-    return [x for x in f_path.read_text().split('\n') if x]
+    return [x for x in Path(fname).read_text().split('\n') if x]
 
 
 def count_matches(puzzle, m, n):
