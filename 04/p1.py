@@ -2,7 +2,7 @@
 from pathlib import Path
 
 
-def parse_input() -> list[str]:
+def parse_input(fname: str = None) -> list[str]:
     """Parse the input from a text file.
 
     Parameters
@@ -13,7 +13,9 @@ def parse_input() -> list[str]:
     -------
     list of list of str
     """
-    f_path = Path(__file__).parents[1].joinpath('input', 'day4.txt')
+    fname = 'day4.txt' if fname is None else fname
+    f_path = Path(__file__).parents[1].joinpath('input', fname)
+
     return [x for x in f_path.read_text().split('\n') if x]
 
 
@@ -65,7 +67,7 @@ def count_matches(puzzle, m, n):
     return num
 
 
-def answer(puzzle: list[str]) -> any:
+def part1(puzzle: list[str]) -> int:
     n = 0
 
     for i in range(len(puzzle)):
@@ -76,4 +78,4 @@ def answer(puzzle: list[str]) -> any:
 
 
 if __name__ == '__main__':
-    print(f'Day 04 Part 1 answer: {answer(parse_input())}')
+    print(f'Day 04 Part 1 answer: {part1(parse_input())}')
