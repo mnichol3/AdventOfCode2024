@@ -4,7 +4,7 @@ from collections import Counter
 from p1 import parse_input
 
 
-def solution(list1: list[int], list2: list[int]) -> int:
+def solve(list1: list[int], list2: list[int]) -> int:
     """Solution to Part 2.
 
     Parameters
@@ -27,5 +27,4 @@ def solution(list1: list[int], list2: list[int]) -> int:
 
 
 if __name__ == '__main__':
-    input = parse_input()
-    print(f'Part 1 solution: {solution(*input)}')
+    print(f'Day 01 Part 2 answer: {solve(*parse_input())}')

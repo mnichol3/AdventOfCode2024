@@ -25,18 +25,18 @@ def valid_report(report: list[int], valid_seq: list[int]) -> bool:
     return True
 
 
-def parse_input(f_path: Path) -> list[list[int]]:
-    """Parse the input from a text file
+def parse_input() -> list[list[int]]:
+    """Parse the input from a text file.
 
     Parameters
     ----------
-    f_path: pathlib.Path
-        Path of input file.
+    None.
 
     Returns
     -------
     list of list of int
     """
+    f_path = Path(__file__).parents[1].joinpath('input', 'day2.txt')
     return [
         [int(y) for y in x.split()]
         for x in f_path.read_text().split('\n') if x
@@ -48,8 +48,8 @@ if __name__ == '__main__':
     inc_seq = range(1, 4)
     dec_seq = range(-3, 0)
 
-    for report in parse_input(INPUT_PATH):
+    for report in parse_input():
         if valid_report(report, inc_seq) or valid_report(report, dec_seq):
             num_valid += 1
 
-    print(f'Day 02 Part 1 solution: {num_valid}')
+    print(f'Day 02 Part 1 answer: {num_valid}')
