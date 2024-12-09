@@ -2,7 +2,7 @@
 from pathlib import Path
 
 
-def parse_input(fname: str = None) -> list[int]:
+def parse_input(fname: str = 'input.txt') -> list[int]:
     """Parse the input from a text file.
 
     Parameters
@@ -14,12 +14,7 @@ def parse_input(fname: str = None) -> list[int]:
     -------
     list of list of int
     """
-    fname = 'input.txt' if fname is None else fname
-
-    return [
-        [int(y) for y in x]
-        for x in Path(fname).read_text().split('\n') if x][0]
-
+    return [int(x) for x in Path(fname).read_text().strip('\n')]
 
 def part1(disk: list[int]) -> int:
     """Solution to Part 1.
