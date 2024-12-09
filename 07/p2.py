@@ -12,7 +12,7 @@ def concat(a: int, b: int) -> int:
 
 
 def part2(calibrations: list[str]) -> int:
-    """Solution to Part 1.
+    """Solution to Part 2.
 
     Parameters
     ----------
@@ -54,4 +54,4 @@ def part2(calibrations: list[str]) -> int:
 
 
 if __name__ == '__main__':
-    print(f'Day 07 Part 1 answer: {part2(parse_input())}')
+    print(f'Day 07 Part 2 answer: {part2(parse_input())}')
