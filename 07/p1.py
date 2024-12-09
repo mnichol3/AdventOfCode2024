@@ -14,7 +14,7 @@ def parse_input(fname: str = None) -> list[str]:
 
     Returns
     -------
-    list of list of str
+    list of str
     """
     fname = 'input.txt' if fname is None else fname
 
