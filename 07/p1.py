@@ -64,4 +64,4 @@ def part1(calibrations: list[str]) -> int:
 
 
 if __name__ == '__main__':
-    print(f'Day 07 Part 1 answer: {part1(parse_input("input.txt"))}')
+    print(f'Day 07 Part 1 answer: {part1(parse_input())}')
