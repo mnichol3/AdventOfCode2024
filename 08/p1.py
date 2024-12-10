@@ -4,24 +4,22 @@ from itertools import combinations
 from pathlib import Path
 
 
-def parse_input(fname: str = None) -> list[list[str]]:
+def parse_input(fname: str = 'input.txt') -> list[list[str]]:
     """Parse the input from a text file.
 
     Parameters
     ----------
-    None.
+    fname: str, optional
 
     Returns
     -------
     list of list of str
     """
-    fname = 'input.txt' if fname is None else fname
-
     return [[y for y in x] for x in Path(fname).read_text().split('\n') if x]
 
 
 def part1(grid: list[list[str]]) -> int:
-    """Solution to Part 2.
+    """Solution to Part 1.
 
     Parameters
     ----------
@@ -30,13 +28,6 @@ def part1(grid: list[list[str]]) -> int:
     Returns
     -------
     int
-
-    Problem
-    -------
-    TODO
-
-    Walkthrough
-    TODO
     """
     locations = defaultdict(set)
     m = len(grid)
