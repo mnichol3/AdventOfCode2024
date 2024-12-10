@@ -16,6 +16,7 @@ def parse_input(fname: str = 'input.txt') -> list[int]:
     """
     return [int(x) for x in Path(fname).read_text().strip('\n')]
 
+
 def part1(disk: list[int]) -> int:
     """Solution to Part 1.
 
