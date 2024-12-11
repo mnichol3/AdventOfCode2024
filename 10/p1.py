@@ -45,7 +45,7 @@ class Node:
         """Return the Node's y-position."""
         return self.position[1]
 
-    def is_neighbor(self, node: Node) -> bool:
+    def is_valid_neighbor(self, node: Node) -> bool:
         """Determine if the given node is a valid neighbor.
 
         Parameters
@@ -134,7 +134,7 @@ class Graph:
     def get_neighbors(self, node: Node) -> list[Node]:
         """Return the neighbors of the given Node."""
         # TODO use adjacency matrix instead of this degeneracy
-        return [x for x in self.nodes if node.is_neighbor(x)]
+        return [x for x in self.nodes if node.is_valid_neighbor(x)]
 
     def part1(
         self,
