@@ -136,13 +136,14 @@ class Graph:
         # TODO use adjacency matrix instead of this degeneracy
         return [x for x in self.nodes if node.is_neighbor(x)]
 
-    def dfs(
+    def part1(
         self,
         current_node: Node,
         visited: set[Node],
         endpoints: list[Node],
     ) -> list[Node]:
-        """Perform a depth-first search.
+        """Solution for Part 1.
+        Perform a depth-first search and return the number of endpoints reached.
 
         Parameters
         ----------
@@ -161,9 +162,40 @@ class Graph:
                 endpoints.append(current_node)
 
             for neighbor in self.get_neighbors(current_node):
-                self.dfs(neighbor, visited, endpoints)
+                self.part1(neighbor, visited, endpoints)
 
         return endpoints
+
+    def part2(
+        self,
+        current_node: Node,
+        visited: list[Node],
+        paths: list[list[Node]],
+    ) -> list[Node]:
+        """Solution for Part 2.
+        Perform a depth-first search and return the unique paths.
+
+        Parameters
+        ----------
+        current_node: Node
+        visited: list of Node
+        paths: list of list of Node
+
+        Returns
+        -------
+        list of list of Node
+            Every unique path from the start node the terminus node.
+        """
+        if current_node not in visited:
+            visited.append(current_node)
+
+            for neighbor in self.get_neighbors(current_node):
+                self.part2(neighbor, visited.copy(), paths)
+
+        if visited[-1].value == 9:
+            paths.append(visited)
+
+        return paths
 
     def __repr__(self) -> str:
         """Return a string representation of the Graph."""
@@ -193,6 +225,6 @@ if __name__ == '__main__':
 
     sum = 0
     for start_node in graph.roots:
-        sum += len(graph.dfs(start_node, set(), []))
+        sum += len(graph.part1(start_node, set(), []))
 
     print(f'Answer: {sum}')
