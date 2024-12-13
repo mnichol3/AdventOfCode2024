@@ -38,7 +38,7 @@ class ClawMachine:
         )
         self.prize = prize
 
-    def solve(self, part2: bool = False) -> tuple[int, int]:
+    def solve(self, part2: bool = False) -> int:
 
         def _is_int(x: int) -> bool:
             return round(x, 2).is_integer()
