@@ -75,9 +75,9 @@ def calc_perimeter(group: set | list) -> int:
     """Compute the perimeter of a group."""
     p = 0
 
-    for (i, j) in group:
+    for g in group:
         for move in Move:
-            if (i, j) + move not in group:
+            if g + move not in group:
                 p += 1
 
     return p
@@ -90,7 +90,7 @@ def calc_sides(garden: Garden, group: set | list, val: str) -> int:
             'UP': (-1, 1),
             'RIGHT': (1, 1),
             'DOWN': (1, -1),
-            'LEFT': (-1, -1)
+            'LEFT': (-1, -1),
         }
 
         n = 0
