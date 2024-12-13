@@ -1,4 +1,4 @@
-"""Advent of Code 2024 - Day 13 Part 1"""
+"""Advent of Code 2024 - Day 13 Part 1 & 2"""
 from __future__ import annotations
 import re
 from dataclasses import dataclass
@@ -47,8 +47,8 @@ class ClawMachine:
         prize_y = self.prize[1]
 
         if part2:
-            prize_x += 10000000000000
-            prize_y += 10000000000000
+            prize_x += 10e12
+            prize_y += 10e12
 
         c = prize_x / self.buttons.A.x
         d = self.buttons.B.x / self.buttons.A.x
