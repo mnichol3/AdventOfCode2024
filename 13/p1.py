@@ -66,7 +66,7 @@ class ClawMachine:
     def from_file(cls, f_path: str = 'input.txt') -> list[ClawMachine]:
         machines = []
         for block in Path(f_path).read_text().split('\n\n'):
-            inp = re.findall(r'X(?:\+|\=)(\d+), Y(?:\+|\=)(\d+)', block)
+            inp = re.findall(r'X[\+|\=](\d{1,6}), Y[\+|\=](\d{1,6})', block)
             machines.append(
                 cls(
                     tuple(map(int, inp[0])),
