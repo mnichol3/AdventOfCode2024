@@ -1,4 +1,6 @@
 """Advent of Code 2024 - Day 6 Part 2"""
+from bisect import insort, bisect
+from collections import defaultdict
 from itertools import cycle
 
 from p1 import parse_input
@@ -33,15 +35,6 @@ def part2(guard_map: list[str]) -> int:
     4. Repeat 2 & 3 until 3 consecutive turns have been made.
     5. If
     """
-
-    def get_starting_pos(guard_map: list[str]) -> tuple[int, int]:
-        for i in range(len(guard_map)):
-            for j in range(len(guard_map[0])):
-                if guard_map[i][j] == '^':
-                    return i, j
-
-        return -1, -1
-
     movement = cycle([
         (-1, 0),
         (0, 1),
@@ -51,60 +44,90 @@ def part2(guard_map: list[str]) -> int:
 
     ni = len(guard_map)
     nj = len(guard_map[0])
+    obstacles = {
+        'rows': defaultdict(list),
+        'cols': defaultdict(list),
+    }
 
-    curr_i, curr_j = get_starting_pos(guard_map)
+    for i in range(ni):
+        for j in range(nj):
+            if guard_map[i][j] == '#':
+                insort(obstacles['rows'][i], j)
+                insort(obstacles['cols'][j], i)
+            if guard_map[i][j] == '^':
+                start = (i, j, 'up')
 
-    if (curr_i, curr_j) == (-1, -1):
-        return 0
+    def move(i, j, v, obstacles):
+        i_obs = obstacles['rows'][i]
+        j_obs = obstacles['cols'][j]
 
-    vertices = set()
-    obstacles = set()
-    n_turns = 0
-    prev_pos = None
-    move = next(movement)
-    while True:
-        next_i = curr_i + move[0]
-        next_j = curr_j + move[1]
+        if v == 'up':
+            if not j_obs or j_obs[0] > i:
+                new_i = -1
+            else:
+                ii = bisect(j_obs, i)
+                new_i = j_obs[ii-1] + 1
+            return new_i, j, 'right'
 
-        if not 0 <= next_i < ni or not 0 <= next_j < nj:
-            print(obstacles)
-            print(vertices)
-            return len(obstacles)
+        if v == 'right':
+            if not i_obs or i_obs[-1] < j:
+                new_j = nj
+            else:
+                ii = bisect(i_obs, j)
+                new_j = i_obs[ii] - 1
+            return i, new_j, 'down'
 
-        if guard_map[next_i][next_j] == '#':
-            vertices.add((curr_i, curr_j))
-            move = next(movement)
-            n_turns += 1
-            prev_pos = (curr_i, curr_j)
-        else:
-            if (curr_i, curr_j) != prev_pos:
-                if move == (-1, 0):
-                    for j in range(curr_j+1, nj):
-                        if (curr_i, j) in vertices:
-                            obstacles.add((next_i, next_j))
-                            break
-                elif move == (0, 1):
-                    for i in range(curr_i+1, ni):
-                        if (i, curr_j) in vertices:
-                            obstacles.add((next_i, next_j))
-                            break
-                elif move == (1, 0):
-                    for j in range(curr_j-1, -1, -1):
-                        if (curr_i, j) in vertices:
-                            obstacles.add((next_i, next_j))
-                            break
-                else:
-                    for i in range(curr_i-1, -1, -1):
-                        if (i, curr_j) in vertices:
-                            obstacles.add((next_i, next_j))
-                            break
+        if v == 'down':
+            if not j_obs or j_obs[-1] < i:
+                new_i = ni
+            else:
+                ii = bisect(j_obs, i)
+                new_i = j_obs[ii] - 1
+            return new_i, j, 'left'
 
-            prev_pos = (curr_i, curr_j)
-            curr_i = next_i
-            curr_j = next_j
+        if v == 'left':
+            if not i_obs or i_obs[0] > j:
+                new_j = -1
+            else:
+                ii = bisect(i_obs, j)
+                new_j = i_obs[ii-1] + 1
+            return i, new_j, 'up'
+
+    candidates = set()
+    i, j, v = start
+    while i in range(ni) and j in range(nj):
+        new_i, new_j, new_v = move(i, j, v, obstacles)
+        if v == 'up':
+            candidates |= set((i, j) for i in range(new_i+1, i+1))
+        elif v == 'right':
+            candidates |= set((i, j) for j in range(j, new_j))
+        elif v == 'down':
+            candidates |= set((i, j) for i in range(i, new_i))
+        elif v == 'left':
+            candidates |= set((i, j) for j in range(new_j+1, j+1))
+        i, j, v = new_i, new_j, new_v
+
+    def is_looping(obstacles):
+        i, j, v = start
+        visited = set([start])
+        while i in range(ni) and j in range(nj):
+            i, j, v = move(i, j, v, obstacles)
+            if (i, j, v) in visited:
+                return True
+            visited.add((i, j, v))
+        return False
+
+    loop_count = 0
+    for i, j in candidates:
+        insort(obstacles['rows'][i], j)
+        insort(obstacles['cols'][j], i)
+        loop_count += is_looping(obstacles)
+        obstacles['rows'][i].remove(j)
+        obstacles['cols'][j].remove(i)
+
+    return loop_count
 
 
 if __name__ == '__main__':
-    #print(f'Day 06 Part 2 answer: {part2(parse_input("input_test.txt"))}')
     print(f'Day 06 Part 2 answer: {part2(parse_input())}')
     # 1576 too low
