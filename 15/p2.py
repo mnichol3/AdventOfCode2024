@@ -2,7 +2,6 @@
 from p1 import Fishtank, parse_input
 
 
-
 class UpdatedFishtank(Fishtank):
 
     def __init__(self, tank_map: list[list[str]]) -> None:
