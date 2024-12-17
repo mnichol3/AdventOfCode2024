@@ -6,7 +6,21 @@ from math import trunc
 from pathlib import Path
 
 
-def parse_input(f_path: str = 'input.txt') -> tuple:
+def parse_input(f_path: str = 'input.txt') -> tuple[list, str]:
+    """Read and return input from text file.
+
+    Parameters
+    ----------
+    f_path: str, optional
+        Input file path. Default is 'input.txt'.
+
+    Returns
+    -------
+    list of int
+        Processor register initial values.
+    str
+        Comma-separated processor instructions.
+    """
     patt = re.compile(r'Register \w\: (\d+)')
     inp = Path(f_path).read_text().split('\n\n')
 
@@ -15,18 +29,32 @@ def parse_input(f_path: str = 'input.txt') -> tuple:
 
 @dataclass
 class Registers:
+    """Simple container for registers."""
     A: int
     B: int
     C: int
 
 
 class Processor:
+    """Simple processor class."""
 
     def __init__(self, reg_vals: list[int]) -> None:
+        """Constructor.
+
+        Parameters
+        ----------
+        reg_vals: list of int
+            Initial values for registers A, B, and C.
+
+        Returns
+        -------
+        None.
+        """
         self.registers = Registers(*reg_vals)
         self.ptr = 0
 
     def _get_combo_operand(self, oper: int) -> int:
+        """Get the combo operand for the given literal operand."""
         if oper in [0, 1, 2, 3, 7]:
             return oper
 
@@ -39,8 +67,8 @@ class Processor:
 
     def _instr0(self, oper: int) -> None:
         """instruction 0 - adv"""
-        oper = self._get_combo_operand(oper)
-        self.registers.A = trunc(self.registers.A / (2**oper))
+        self.registers.A = trunc(self.registers.A
+                                 / (2**self._get_combo_operand(oper)))
 
     def _instr1(self, oper: int) -> None:
         """instruction 1 - bxl"""
@@ -66,15 +94,27 @@ class Processor:
 
     def _instr6(self, oper: int) -> None:
         """instruction 6 - bdv"""
-        oper = self._get_combo_operand(oper)
-        self.registers.B = trunc(self.registers.A / (2**oper))
+        self.registers.B = trunc(self.registers.A
+                                 / (2**self._get_combo_operand(oper)))
 
     def _instr7(self, oper: int) -> None:
         """instruction 7 - cdv"""
-        oper = self._get_combo_operand(oper)
-        self.registers.C = trunc(self.registers.A / (2**oper))
+        self.registers.C = trunc(self.registers.A
+                                 / (2**self._get_combo_operand(oper)))
 
-    def run_program(self, pgm: str) -> int:
+    def run_program(self, pgm: str) -> str:
+        """Run a program,
+
+        Parameters
+        ----------
+        pgm: str
+            Program to run, consisting of comma-separated opcodes and operands.
+
+        Returns
+        -------
+        str
+            Comma-separated output.
+        """
         pgm = list(map(int, pgm.split(',')))
 
         self.ptr = 0
@@ -90,6 +130,11 @@ class Processor:
             self.ptr += 2
 
         return ','.join(output)
+
+    def __repr__(self) -> str:
+        """Return a string representation of the class."""
+        return (f'<{self.__class__.__name__} A={self.registers.A}, '
+                f'B={self.registers.B}, C={self.registers.C}>')
 
 
 if __name__ == '__main__':
