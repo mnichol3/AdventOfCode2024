@@ -6,7 +6,7 @@ from math import trunc
 from pathlib import Path
 
 
-def parse_input(f_path: str = 'input.txt') -> tuple[list, str]:
+def parse_input(f_path: str = 'input.txt') -> tuple[list[int], list[int]]:
     """Read and return input from text file.
 
     Parameters
@@ -18,13 +18,16 @@ def parse_input(f_path: str = 'input.txt') -> tuple[list, str]:
     -------
     list of int
         Processor register initial values.
-    str
-        Comma-separated processor instructions.
+    list of int
+        Processor instructions.
     """
     patt = re.compile(r'Register \w\: (\d+)')
     inp = Path(f_path).read_text().split('\n\n')
 
-    return list(map(int, patt.findall(inp[0]))), inp[1].split(' ')[1].strip()
+    reg_vals = list(map(int, patt.findall(inp[0])))
+    pgm = list(map(int, inp[1].split(' ')[1].strip().split(',')))
+
+    return reg_vals, pgm
 
 
 @dataclass
@@ -103,20 +106,18 @@ class Processor:
                                  / (2**self._get_combo_operand(oper)))
 
     def run_program(self, pgm: str) -> str:
-        """Run a program,
+        """Run a program.
 
         Parameters
         ----------
-        pgm: str
-            Program to run, consisting of comma-separated opcodes and operands.
+        pgm: list of int
+            Program to run.
 
         Returns
         -------
         str
             Comma-separated output.
         """
-        pgm = list(map(int, pgm.split(',')))
-
         self.ptr = 0
         output = []
         while self.ptr < len(pgm) - 1:
