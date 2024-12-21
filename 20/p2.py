@@ -3,12 +3,12 @@ import math
 from collections import deque
 from itertools import product
 
-from p1 import parse_input, Maze, Point
+from p1 import calc_distance, parse_input, Maze, Point
 
 
 def get_distance(a: Point, b: Point, max_diff: int = 20) -> int | None:
         """Return the manhattan distance if within the valid max value."""
-        dist = abs(a[0]-b[0]) + abs(a[1]-b[1])
+        dist = calc_distance(a, b)
 
         if dist > max_diff:
              return None
