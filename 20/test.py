@@ -15,7 +15,7 @@ class TestPart1(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.maze = p1.Maze(p1.parse_input('sample.txt'))
+        cls.maze = p1.Maze(p1.parse_input('example.txt'))
         cls.best_path = cls.maze.bfs()
 
     def test_best_length(self) -> None:
@@ -49,7 +49,7 @@ class TestPart2(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.maze = p1.Maze(p1.parse_input('sample.txt'))
+        cls.maze = p1.Maze(p1.parse_input('example.txt'))
         cls.best_path = cls.maze.bfs()
 
     def test_best_length(self) -> None:

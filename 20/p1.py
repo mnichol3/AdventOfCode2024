@@ -1,7 +1,6 @@
 """Advent of Code 2024 - Day 20 Part 1"""
 from collections import deque
 from enum import Enum
-from itertools import product
 from pathlib import Path
 
 
@@ -151,21 +150,21 @@ def find_shortcuts(maze: Maze, best_path: list[Point]) -> any:
     shortcuts = {}
     visited = set()
 
-    # TODO refactor, look 2 indices ahead
-    for (point1, point2) in product(best_path, best_path):
-        if point2 == maze.start:
-            continue
+    for idx, point1 in enumerate(best_path):
+        for point2 in best_path[idx+3:]:
+            if point2 == maze.start:
+                continue
 
-        if calc_distance(point1, point2) == 2 and point2 not in visited:
-            pi, pj = point_between(point1, point2)
-            if maze.map[pi][pj] == '#':
-                len_saved = abs(
-                    best_path.index(point2) - best_path.index(point1) - 2)
+            if calc_distance(point1, point2) == 2 and point2 not in visited:
+                pi, pj = point_between(point1, point2)
+                if maze.map[pi][pj] == '#':
+                    len_saved = best_path.index(point2) \
+                                - best_path.index(point1) - 2
 
-                if len_saved in shortcuts:
-                    shortcuts[len_saved] += 1
-                else:
-                    shortcuts[len_saved] = 1
+                    if len_saved in shortcuts:
+                        shortcuts[len_saved] += 1
+                    else:
+                        shortcuts[len_saved] = 1
 
         visited.add(point1)
 
